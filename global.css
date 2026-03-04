@@ -1,54 +1,45 @@
 .global {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #333;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    letter-spacing: 0.5px;
     margin: 0;
     padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin: 1rem 0;
-}
-
-h1 {
-    font-size: 2.5rem;
-}
-
-h2 {
-    font-size: 2rem;
-}
-
-h3 {
-    font-size: 1.75rem;
+    font-family: 'Helvetica neue', sans-serif;
+    font-weight: bold;
 }
 
 p {
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2em;
+    color: #333;
 }
 
+/* Spacing and Alignment */
 .container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
 }
 
-/* Mobile-first approach */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-    h2 {
-        font-size: 1.75rem;
-    }
-    h3 {
-        font-size: 1.5rem;
-    }
-    p {
-        font-size: 0.9rem;
-    }
+/* Responsive Design */
+@media screen and (max-width: 768px) {
     .container {
-        padding: 0.5rem;
+        padding: 10px;
     }
+}
+
+/* Bilingual Support */
+:lang(fr) {
+    font-family: 'Garamond', serif;
+}
+
+:lang(es) {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Performance Optimizations */
+* {
+    box-sizing: border-box;
 }
