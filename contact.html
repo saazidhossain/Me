@@ -238,6 +238,8 @@
     <div class="contact-wrap">
       <!-- FORM -->
       <div class="form-side">
+        <!-- Contact endpoint stored as data attribute to reduce direct email exposure in JS -->
+        <span id="contactEndpoint" data-endpoint="hello@sazid.dev" aria-hidden="true" style="display:none"></span>
         <div class="form-label reveal"><span class="en">Send a Message</span><span class="bn" style="font-family:var(--font-bn)">বার্তা পাঠান</span></div>
         <h2 class="form-heading reveal"><span class="en">Start a Conversation</span><span class="bn" style="font-family:var(--font-bn)">কথোপকথন শুরু করুন</span></h2>
 
@@ -409,6 +411,10 @@
     const btn=document.getElementById('submitBtn');
     let valid=true;
 
+    const nameVal=name.value.trim();
+    const emailVal=email.value.trim();
+    const msgVal=message?.value.trim()||'';
+
     // Validate required fields
     [name,email].forEach(f=>{
       f.style.borderColor='';f.style.boxShadow='';
@@ -420,39 +426,35 @@
       }
     });
 
-    // Validate email format
-    if(email.value.trim()&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){
+    // Validate email format (RFC 5322 simplified)
+    if(emailVal&&!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(emailVal)){
       email.style.borderColor='#ff6b6b';email.style.boxShadow='0 0 0 3px rgba(255,107,107,0.15)';
       valid=false;setTimeout(()=>{email.style.borderColor='';email.style.boxShadow=''},2500);
     }
 
     if(!valid){btn.classList.add('shake');setTimeout(()=>btn.classList.remove('shake'),400);return}
 
-    // Build mailto link as fallback for static hosting
-    const subject=encodeURIComponent('Project Inquiry from '+name.value.trim());
     const service=document.querySelector('.chip.selected')?.dataset?.val||'';
-    const body=encodeURIComponent(
-      'Name: '+name.value.trim()+'\n'+
-      'Email: '+email.value.trim()+'\n'+
-      (service?'Service: '+service+'\n':'')+
-      '\nMessage:\n'+(message?.value||'')
-    );
 
     btn.textContent='Sending…';btn.style.opacity='0.7';btn.style.pointerEvents='none';
 
     // Send via FormSubmit (static-site-friendly, no backend required)
+    // The contact endpoint is stored as a data attribute to reduce direct exposure
+    const contactEl=document.getElementById('contactEndpoint');
+    const endpoint=contactEl?contactEl.dataset.endpoint:'';
     const form=document.createElement('form');
     form.method='POST';
-    form.action='https://formsubmit.co/hello@sazid.dev';
+    form.action='https://formsubmit.co/'+endpoint;
     form.style.display='none';
     const fields={
-      '_subject': 'New Project Inquiry — '+name.value.trim(),
+      '_subject': 'New Project Inquiry \u2014 '+nameVal,
       '_captcha': 'false',
+      '_template': 'table',
       '_next': window.location.origin+window.location.pathname+'?sent=1',
-      'name': name.value.trim(),
-      'email': email.value.trim(),
+      'name': nameVal,
+      'email': emailVal,
       'service': service,
-      'message': message?.value||''
+      'message': msgVal
     };
     Object.entries(fields).forEach(([k,v])=>{
       const inp=document.createElement('input');

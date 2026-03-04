@@ -345,7 +345,6 @@
     const scrollBar=document.getElementById('scrollBar');
     window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-window.innerHeight;scrollBar.style.width=(max>0?(window.scrollY/max)*100:0)+'%'},{passive:true});
     window.addEventListener('scroll',()=>{const nav=document.querySelector('nav');if(window.scrollY>20)nav.classList.add('scrolled');else nav.classList.remove('scrolled')},{passive:true});
-    const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classLis
     const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)})},{threshold:0.07});
     document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
