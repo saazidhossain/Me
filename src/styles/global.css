@@ -1112,24 +1112,29 @@ textarea.form-control {
 
 /* =============================================================================
    13. SCROLLBAR STYLING
+   Only applied when the user has not indicated a preference for reduced motion
+   or high contrast mode, to preserve accessibility for users who rely on
+   system-default scrollbar appearance.
    ============================================================================= */
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+@media (prefers-contrast: no-preference) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--border2);
-  border-radius: var(--radius-full);
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: var(--radius-full);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
 }
 
 /* =============================================================================
