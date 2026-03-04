@@ -73,6 +73,11 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     @keyframes scanline{0%{top:-100%}100%{top:100%}}
+    @keyframes twinkle{0%,100%{opacity:0.2}50%{opacity:1}}
+
+    /* ── STARFIELD ───────────────────────────────────────────── */
+    #starfield{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.55}
+    [data-theme="light"] #starfield{opacity:0.15}
 
     /* ── NAV ─────────────────────────────────────────────────── */
     nav{
@@ -452,7 +457,7 @@
       .process-strip{grid-template-columns:1fr}
     }
     @media(max-width:900px){
-      nav{padding:0 20px}.nav-links{display:none}
+      nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}
       .hero{min-height:100svh;padding:80px 24px 100px}
       .hero-side-info{display:none}
       .hero-scroll-hint{left:24px}
@@ -468,10 +473,22 @@
     @media(max-width:600px){
       .svc-list,.proj-grid,.testi-grid,.process-steps,.about-values{grid-template-columns:1fr}
     }
-  </style>
+  
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.3s,opacity 0.3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-nav{position:fixed;top:62px;left:0;right:0;bottom:0;background:var(--bg);z-index:850;display:flex;flex-direction:column;padding:40px 32px;gap:8px;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);overflow-y:auto}
+    .mobile-nav.open{transform:translateX(0)}
+    .mobile-nav a{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-0.01em;color:var(--text);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+    .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent)}
+    .mobile-nav .mob-cta{color:#05050e!important;background:var(--accent);border:none;border-radius:10px;padding:16px 24px!important;margin-top:16px;text-align:center;border-bottom:none!important}
+</style>
 </head>
 <body>
   <div id="scrollBar"></div>
+  <canvas id="starfield"></canvas>
   <div id="cursor"></div>
   <div id="cursorRing"></div>
 
@@ -486,6 +503,7 @@
       <li><a href="about.html"><span class="en">About</span><span class="bn">পরিচয়</span></a></li>
       <li><a href="services.html"><span class="en">Services</span><span class="bn">সেবা</span></a></li>
       <li><a href="portfolio.html"><span class="en">Work</span><span class="bn">কাজ</span></a></li>
+      <li><a href="gallery.html"><span class="en">Gallery</span><span class="bn">গ্যালারি</span></a></li>
       <li><a href="philosophy.html"><span class="en">Philosophy</span><span class="bn">দর্শন</span></a></li>
       <li><a href="blog.html"><span class="en">Blog</span><span class="bn">ব্লগ</span></a></li>
       <li><a href="resume.html"><span class="en">Resume</span><span class="bn">রেজুমে</span></a></li>
@@ -494,8 +512,24 @@
     <div class="nav-controls">
       <button class="ctrl-btn lang-toggle" id="langBtn" onclick="toggleLang()">বাং</button>
       <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" class="active" onclick="closeMobileNav()"><span class="en">Home</span><span class="bn" style="font-family:var(--font-bn)">হোম</span></a>
+    <a href="about.html" onclick="closeMobileNav()"><span class="en">About</span><span class="bn" style="font-family:var(--font-bn)">পরিচয়</span></a>
+    <a href="services.html" onclick="closeMobileNav()"><span class="en">Services</span><span class="bn" style="font-family:var(--font-bn)">সেবা</span></a>
+    <a href="portfolio.html" onclick="closeMobileNav()"><span class="en">Work</span><span class="bn" style="font-family:var(--font-bn)">কাজ</span></a>
+    <a href="gallery.html" onclick="closeMobileNav()"><span class="en">Gallery</span><span class="bn" style="font-family:var(--font-bn)">গ্যালারি</span></a>
+    <a href="philosophy.html" onclick="closeMobileNav()"><span class="en">Philosophy</span><span class="bn" style="font-family:var(--font-bn)">দর্শন</span></a>
+    <a href="blog.html" onclick="closeMobileNav()"><span class="en">Blog</span><span class="bn" style="font-family:var(--font-bn)">ব্লগ</span></a>
+    <a href="resume.html" onclick="closeMobileNav()"><span class="en">Resume</span><span class="bn" style="font-family:var(--font-bn)">রেজুমে</span></a>
+    <a href="contact.html" class="mob-cta" onclick="closeMobileNav()"><span class="en">Hire Me</span><span class="bn" style="font-family:var(--font-bn)">যোগাযোগ</span></a>
+  </div>
+
 
   <div class="page">
 
@@ -887,6 +921,45 @@
     renderProjects();
   }
 
+  // ── STARFIELD ─────────────────────────────────────────────
+  function initStarfield(){
+    const canvas=document.getElementById('starfield');
+    if(!canvas||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    const ctx=canvas.getContext('2d');
+    let w,h,stars=[];
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+    function mkStars(){
+      stars=[];
+      const n=Math.floor((w*h)/10000);
+      for(let i=0;i<n;i++){
+        stars.push({
+          x:Math.random()*w,y:Math.random()*h,
+          r:Math.random()*1.2+0.2,
+          a:Math.random(),da:(Math.random()-0.5)*0.005,
+          s:Math.random()*0.3+0.05
+        });
+      }
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      const isDark=document.documentElement.getAttribute('data-theme')!=='light';
+      const baseColor=isDark?'168,255,120':'58,138,0';
+      stars.forEach(s=>{
+        s.a+=s.da;
+        if(s.a>1||s.a<0.1)s.da*=-1;
+        s.y+=s.s;
+        if(s.y>h){s.y=0;s.x=Math.random()*w}
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${baseColor},${s.a*0.7})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize',()=>{resize();mkStars()},{passive:true});
+    resize();mkStars();draw();
+  }
+
   // ── CURSOR ─────────────────────────────────────────────────
   function initCursor(){
     const cur=document.getElementById('cursor');
@@ -971,6 +1044,7 @@
   document.addEventListener('DOMContentLoaded',()=>{
     initTheme();
     initLang();
+    initStarfield();
     initCursor();
     initScroll();
     initReveal();
@@ -982,6 +1056,21 @@
       if(e.key==='nexus_lang')initLang();
     });
   });
+  
+  function toggleMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(!h||!m)return;
+    const open=h.classList.toggle('open');
+    m.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+  function closeMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(h)h.classList.remove('open');
+    if(m)m.classList.remove('open');
+    document.body.style.overflow='';
+  }
+
   </script>
 </body>
 </html>

@@ -529,6 +529,7 @@
       <li><a href="about.html"><span class="en">About</span><span class="bn">পরিচয়</span></a></li>
       <li><a href="services.html"><span class="en">Services</span><span class="bn">সেবা</span></a></li>
       <li><a href="portfolio.html"><span class="en">Work</span><span class="bn">কাজ</span></a></li>
+      <li><a href="gallery.html"><span class="en">Gallery</span><span class="bn">গ্যালারি</span></a></li>
       <li><a href="philosophy.html"><span class="en">Philosophy</span><span class="bn">দর্শন</span></a></li>
       <li><a href="blog.html"><span class="en">Blog</span><span class="bn">ব্লগ</span></a></li>
       <li><a href="resume.html"><span class="en">Resume</span><span class="bn">রেজুমে</span></a></li>
@@ -548,6 +549,7 @@
     <a href="about.html" onclick="closeMobileNav()"><span class="inline-en">About</span><span class="inline-bn">পরিচয়</span></a>
     <a href="services.html" onclick="closeMobileNav()"><span class="inline-en">Services</span><span class="inline-bn">সেবা</span></a>
     <a href="portfolio.html" onclick="closeMobileNav()"><span class="inline-en">Work</span><span class="inline-bn">কাজ</span></a>
+    <a href="gallery.html" onclick="closeMobileNav()"><span class="en">Gallery</span><span class="bn" style="font-family:var(--font-bn)">গ্যালারি</span></a>
     <a href="philosophy.html" onclick="closeMobileNav()"><span class="inline-en">Philosophy</span><span class="inline-bn">দর্শন</span></a>
     <a href="blog.html" onclick="closeMobileNav()"><span class="inline-en">Blog</span><span class="inline-bn">ব্লগ</span></a>
     <a href="resume.html" onclick="closeMobileNav()"><span class="inline-en">Resume</span><span class="inline-bn">রেজুমে</span></a>
@@ -1048,6 +1050,21 @@
       if(e.key==='nexus_lang')initLang();
     });
   });
+  
+  function toggleMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(!h||!m)return;
+    const open=h.classList.toggle('open');
+    m.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+  function closeMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(h)h.classList.remove('open');
+    if(m)m.classList.remove('open');
+    document.body.style.overflow='';
+  }
+
   </script>
 </body>
 </html>

@@ -64,14 +64,18 @@ p { font-size: 1rem; }
 }
 
 /* Performance Enhancements */
-/* Reduce excessive box-shadow and transitions for improved performance */
-* {
-    transition: all 0.3s ease;
+/* Use will-change only on elements that animate frequently */
+.reveal {
+    will-change: opacity, transform;
 }
 
 /* Top 1% Functionality Standards - Accessibility Improvements */
-:focus {
+:focus-visible {
     outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+    outline: none;
 }
 
 /* End of Global Styles */
