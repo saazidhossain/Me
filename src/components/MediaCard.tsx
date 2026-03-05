@@ -17,27 +17,27 @@ interface MediaCardProps {
   onPreview?: (media: MediaAsset) => void;
 }
 
+const MEDIA_ICONS: Record<string, string> = {
+  video: '▶',
+  pdf: '📄',
+  figma: '🎨',
+};
+
+const MEDIA_COLORS: Record<string, string> = {
+  video: '#ff6b6b',
+  pdf: '#ff922b',
+  figma: '#845ef7',
+};
+
+const getMediaIcon = (type: string): string => MEDIA_ICONS[type] ?? '🖼';
+const getMediaColor = (type: string): string => MEDIA_COLORS[type] ?? '#b4ff57';
+
 export default function MediaCard({ media, onPreview }: MediaCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  const getMediaIcon = () => {
-    switch (media.type) {
-      case 'video': return '▶';
-      case 'pdf': return '📄';
-      case 'figma': return '🎨';
-      default: return '🖼';
-    }
-  };
-
-  const getMediaColor = () => {
-    switch (media.type) {
-      case 'video': return '#ff6b6b';
-      case 'pdf': return '#ff922b';
-      case 'figma': return '#845ef7';
-      default: return '#b4ff57';
-    }
-  };
+  const mediaIcon = getMediaIcon(media.type);
+  const mediaColor = getMediaColor(media.type);
 
   const handlePreview = () => {
     if (onPreview) {
@@ -101,7 +101,7 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
                 fontSize: '48px',
               }}
             >
-              {getMediaIcon()}
+              {mediaIcon}
             </div>
           )}
 
@@ -123,9 +123,9 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
                 style={{
                   padding: '12px 24px',
                   borderRadius: '8px',
-                  border: `2px solid ${getMediaColor()}`,
+                  border: `2px solid ${mediaColor}`,
                   background: 'transparent',
-                  color: getMediaColor(),
+                  color: mediaColor,
                   fontSize: 'var(--text-sm)',
                   fontFamily: 'var(--font-display)',
                   fontWeight: 600,
@@ -133,12 +133,12 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
                   transition: 'all 0.2s',
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.background = getMediaColor();
+                  (e.target as HTMLButtonElement).style.background = mediaColor;
                   (e.target as HTMLButtonElement).style.color = 'var(--bg)';
                 }}
                 onMouseLeave={(e) => {
                   (e.target as HTMLButtonElement).style.background = 'transparent';
-                  (e.target as HTMLButtonElement).style.color = getMediaColor();
+                  (e.target as HTMLButtonElement).style.color = mediaColor;
                 }}
               >
                 Preview ↗
@@ -183,11 +183,11 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
               right: '8px',
               padding: '6px 12px',
               borderRadius: '6px',
-              background: `${getMediaColor()}20`,
-              border: `1px solid ${getMediaColor()}`,
+              background: `${mediaColor}20`,
+              border: `1px solid ${mediaColor}`,
               fontSize: 'var(--text-xs)',
               fontFamily: 'var(--font-mono)',
-              color: getMediaColor(),
+              color: mediaColor,
               fontWeight: 600,
               textTransform: 'uppercase',
             }}

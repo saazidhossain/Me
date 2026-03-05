@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 interface Project {
   id: string;
@@ -25,27 +25,27 @@ interface ProjectShowcaseProps {
   filterByCategory?: string;
 }
 
+const STATUS_COLORS: Record<string, string> = {
+  live: '#b4ff57',
+  'in-progress': '#ff922b',
+  archived: '#748192',
+};
+
+const getStatusColor = (status: string): string => STATUS_COLORS[status] ?? '#6c82ff';
+
 export default function ProjectShowcase({ projects, onProjectClick, filterByCategory }: ProjectShowcaseProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(filterByCategory || '');
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Extract unique categories
-  const categories = Array.from(new Set(projects.map(p => p.category)));
+  const categories = useMemo(() => Array.from(new Set(projects.map(p => p.category))), [projects]);
 
   // Filter projects
-  const filteredProjects = selectedCategory
-    ? projects.filter(p => p.category === selectedCategory)
-    : projects;
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'live': return '#b4ff57';
-      case 'in-progress': return '#ff922b';
-      case 'archived': return '#748192';
-      default: return '#6c82ff';
-    }
-  };
+  const filteredProjects = useMemo(
+    () => selectedCategory ? projects.filter(p => p.category === selectedCategory) : projects,
+    [selectedCategory, projects]
+  );
 
   const renderGridView = () => (
     <div

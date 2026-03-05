@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 interface MediaAsset {
   id: string;
@@ -17,37 +17,37 @@ interface MediaShowcaseProps {
   columns?: 2 | 3 | 4;
 }
 
+const TYPE_COLORS: Record<string, string> = {
+  video: '#ff6b6b',
+  pdf: '#ff922b',
+  figma: '#845ef7',
+  image: '#b4ff57',
+};
+
+const TYPE_ICONS: Record<string, string> = {
+  video: '▶',
+  pdf: '📄',
+  figma: '🎨',
+};
+
+const getTypeColor = (type: string): string => TYPE_COLORS[type] ?? '#6c82ff';
+const getTypeIcon = (type: string): string => TYPE_ICONS[type] ?? '🖼';
+
 export default function MediaShowcase({ media, title = 'Media Gallery', columns = 3 }: MediaShowcaseProps) {
   const [selectedMedia, setSelectedMedia] = useState<MediaAsset | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   // Extract unique categories
-  const uniqueCategories = Array.from(new Set(media.map(m => m.category).filter(Boolean))) as string[];
-  const categories = ['all', ...uniqueCategories];
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(media.map(m => m.category).filter(Boolean))) as string[];
+    return ['all', ...unique];
+  }, [media]);
 
   // Filter media by category
-  const filteredMedia = activeCategory === 'all'
-    ? media
-    : media.filter(m => m.category === activeCategory);
-
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'video': return '#ff6b6b';
-      case 'pdf': return '#ff922b';
-      case 'figma': return '#845ef7';
-      case 'image': return '#b4ff57';
-      default: return '#6c82ff';
-    }
-  };
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'video': return '▶';
-      case 'pdf': return '📄';
-      case 'figma': return '🎨';
-      default: return '🖼';
-    }
-  };
+  const filteredMedia = useMemo(
+    () => activeCategory === 'all' ? media : media.filter(m => m.category === activeCategory),
+    [activeCategory, media]
+  );
 
   return (
     <div>
