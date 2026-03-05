@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface MediaAsset {
   id: string;
@@ -20,6 +20,9 @@ interface MediaCardProps {
 export default function MediaCard({ media, onPreview }: MediaCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   const getMediaIcon = () => {
     switch (media.type) {
@@ -47,10 +50,71 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
     }
   };
 
+  const closePreview = () => {
+    setPreviewOpen(false);
+    // Return focus to trigger element
+    if (triggerRef.current) {
+      triggerRef.current.focus();
+    }
+  };
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    if (!previewOpen) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closePreview();
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [previewOpen]);
+
+  // Focus trap inside modal
+  useEffect(() => {
+    if (!previewOpen || !modalRef.current) return;
+
+    const focusableElements = modalRef.current.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    // Focus close button when modal opens
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleTab);
+    return () => document.removeEventListener('keydown', handleTab);
+  }, [previewOpen]);
+
   return (
     <>
       <div
+        ref={triggerRef}
         className="card"
+        tabIndex={0}
+        role="article"
+        aria-label={`${media.type} - ${media.title}`}
         style={{
           padding: 0,
           overflow: 'hidden',
@@ -120,6 +184,7 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
             >
               <button
                 onClick={handlePreview}
+                aria-label={`Preview ${media.title}`}
                 style={{
                   padding: '12px 24px',
                   borderRadius: '8px',
@@ -287,6 +352,9 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
       {/* Preview Modal */}
       {previewOpen && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
           style={{
             position: 'fixed',
             inset: 0,
@@ -297,9 +365,10 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
             zIndex: 9999,
             padding: '20px',
           }}
-          onClick={() => setPreviewOpen(false)}
+          onClick={closePreview}
         >
           <div
+            ref={modalRef}
             style={{
               position: 'relative',
               width: '100%',
@@ -313,7 +382,9 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
           >
             {/* Close Button */}
             <button
-              onClick={() => setPreviewOpen(false)}
+              ref={closeButtonRef}
+              onClick={closePreview}
+              aria-label="Close preview"
               style={{
                 position: 'absolute',
                 top: '20px',
@@ -332,7 +403,7 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
                 zIndex: 10000,
               }}
             >
-              ✕
+              <span aria-hidden="true">✕</span>
             </button>
 
             {/* Media Preview */}
@@ -368,7 +439,7 @@ export default function MediaCard({ media, onPreview }: MediaCardProps) {
 
             {/* Info */}
             <div style={{ padding: '24px', borderTop: '1px solid var(--border)' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', marginBottom: '8px' }}>
+              <h2 id="modal-title" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', marginBottom: '8px' }}>
                 {media.title}
               </h2>
               {media.description && (

@@ -41,7 +41,15 @@ const {
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap"
     rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
   />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
 
   <!-- Theme color for mobile browsers -->
   <meta name="theme-color" content="#030310" />
@@ -63,7 +71,7 @@ const {
   <div id="cursorRing" aria-hidden="true"></div>
 
   <!-- Navigation -->
-  <Navbar activePage={page} client:load />
+  <Navbar activePage={page} client:idle />
 
   <!-- Main Content -->
   <main id="main-content" style="padding-top: 62px;" tabindex="-1">
@@ -221,8 +229,9 @@ const {
       document.documentElement.setAttribute('data-theme', saved);
     })();
 
-    // ─── Custom cursor (desktop only) ────────────────────────────────────────
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // ─── Custom cursor (desktop only, respects reduced-motion) ──────────────
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReducedMotion) {
       const cursor = document.getElementById('cursor');
       const cursorRing = document.getElementById('cursorRing');
       let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
@@ -257,6 +266,12 @@ const {
           if (cursorRing) { cursorRing.style.width = '32px'; cursorRing.style.height = '32px'; }
         });
       });
+    } else {
+      // Hide cursor elements if reduced motion is preferred
+      const cursor = document.getElementById('cursor');
+      const cursorRing = document.getElementById('cursorRing');
+      if (cursor) cursor.style.display = 'none';
+      if (cursorRing) cursorRing.style.display = 'none';
     }
 
     // ─── Scroll progress bar ─────────────────────────────────────────────────

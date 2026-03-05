@@ -146,8 +146,16 @@ body {
   background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-variant-ligatures: common-ligatures contextual;
   min-height: 100vh;
   overflow-x: hidden;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  orphans: 3;
+  widows: 3;
 }
 
 /* Remove default transitions from body on theme change */
@@ -160,11 +168,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
   color: var(--text);
+  text-wrap: balance;
+  font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
 }
 
 p {
   color: var(--text2);
   line-height: 1.7;
+  max-width: 75ch;
+  text-wrap: pretty;
+}
+
+/* Bengali text specific line-height */
+p.font-bn,
+.font-bn p {
+  line-height: 2.0;
+  letter-spacing: 0.01em;
 }
 
 a {
@@ -332,9 +351,77 @@ ol {
 .text-hero { font-size: var(--text-hero); }
 
 .font-display { font-family: var(--font-display); }
-.font-serif { font-family: var(--font-serif); }
-.font-mono { font-family: var(--font-mono); }
+.font-serif {
+  font-family: var(--font-serif);
+  font-feature-settings: "kern" 1, "liga" 1, "dlig" 1;
+}
+.font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "zero" 1, "ss02" 1, "cv02" 1;
+  font-variant-numeric: slashed-zero;
+}
 .font-bn { font-family: var(--font-bn); }
+
+/* Proper quotation marks */
+q {
+  quotes: """ """ "'" "'";
+}
+
+q::before {
+  content: open-quote;
+}
+
+q::after {
+  content: close-quote;
+}
+
+/* Optical sizing for supported fonts */
+@supports (font-variation-settings: normal) {
+  h1, h2, h3, h4, h5, h6 {
+    font-optical-sizing: auto;
+  }
+}
+
+/* Numeric styles */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.old-style-nums {
+  font-variant-numeric: oldstyle-nums;
+}
+
+/* Long-form content typography */
+.prose {
+  max-width: 65ch;
+  line-height: 1.75;
+}
+
+.prose p + p {
+  margin-top: 1.25em;
+}
+
+.prose h2 {
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
 
 .gradient-text {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%);
@@ -1038,11 +1125,11 @@ textarea.form-control {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-/* Colors */
-.text-accent { color: var(--accent); }
-.text-muted { color: var(--muted); }
-.text-muted2 { color: var(--muted2); }
-.text-text2 { color: var(--text2); }
+/* Colors with fallbacks */
+.text-accent { color: var(--accent, #b4ff57); }
+.text-muted { color: var(--muted, #6060a0); }
+.text-muted2 { color: var(--muted2, #9090c0); }
+.text-text2 { color: var(--text2, #b8b8d8); }
 
 /* Display */
 .block { display: block; }
