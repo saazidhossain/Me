@@ -1125,11 +1125,11 @@ textarea.form-control {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-/* Colors */
-.text-accent { color: var(--accent); }
-.text-muted { color: var(--muted); }
-.text-muted2 { color: var(--muted2); }
-.text-text2 { color: var(--text2); }
+/* Colors with fallbacks */
+.text-accent { color: var(--accent, #b4ff57); }
+.text-muted { color: var(--muted, #6060a0); }
+.text-muted2 { color: var(--muted2, #9090c0); }
+.text-text2 { color: var(--text2, #b8b8d8); }
 
 /* Display */
 .block { display: block; }

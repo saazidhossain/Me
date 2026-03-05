@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ThemeToggle from './ThemeToggle.tsx';
 
 interface NavbarProps {
@@ -19,12 +19,37 @@ export default function Navbar({ activePage = '' }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [lang, setLang] = useState<'en' | 'bn'>('en');
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Handle ESC key to close mobile menu
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [menuOpen]);
+
+  // Focus first menu item when menu opens
+  useEffect(() => {
+    if (menuOpen && mobileMenuRef.current) {
+      const firstLink = mobileMenuRef.current.querySelector('a');
+      firstLink?.focus();
+    }
+  }, [menuOpen]);
 
   const currentPath = typeof window !== 'undefined' ? window.location.pathname : activePage;
 
@@ -143,6 +168,7 @@ export default function Navbar({ activePage = '' }: NavbarProps) {
 
         {/* Mobile menu toggle */}
         <button
+          ref={menuButtonRef}
           onClick={() => setMenuOpen(o => !o)}
           style={{
             width: '34px', height: '34px', borderRadius: '8px',
@@ -151,20 +177,29 @@ export default function Navbar({ activePage = '' }: NavbarProps) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           className="md:hidden"
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
-          {menuOpen ? '✕' : '☰'}
+          <span aria-hidden="true">{menuOpen ? '✕' : '☰'}</span>
         </button>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div style={{
-          position: 'fixed', top: '62px', left: 0, right: 0,
-          background: 'var(--bg2)', borderBottom: '1px solid var(--border)',
-          padding: '20px clamp(20px,5vw,48px)',
-          display: 'flex', flexDirection: 'column', gap: '4px',
-        }}>
+        <div
+          ref={mobileMenuRef}
+          id="mobile-menu"
+          role="navigation"
+          aria-label="Mobile navigation"
+          style={{
+            position: 'fixed', top: '62px', left: 0, right: 0,
+            background: 'var(--bg2)', borderBottom: '1px solid var(--border)',
+            padding: '20px clamp(20px,5vw,48px)',
+            display: 'flex', flexDirection: 'column', gap: '4px',
+            animation: 'fadeInDown 300ms ease both',
+          }}
+        >
           {NAV_LINKS.map(({ href, label }) => (
             <a
               key={href}
