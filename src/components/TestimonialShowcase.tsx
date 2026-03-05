@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 interface Testimonial {
   id: string;
@@ -20,7 +20,14 @@ interface TestimonialShowcaseProps {
 export default function TestimonialShowcase({ testimonials, title = 'Client Testimonials', columns = 3 }: TestimonialShowcaseProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const renderStars = (rating: number) => {
+  const featuredTestimonial = useMemo(() => testimonials.find(t => t.featured), [testimonials]);
+  const nonFeaturedTestimonials = useMemo(() => testimonials.filter(t => !t.featured), [testimonials]);
+  const averageRating = useMemo(
+    () => testimonials.length > 0 ? testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length : 0,
+    [testimonials]
+  );
+
+  const renderStars = useCallback((rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <span
         key={i}
@@ -33,7 +40,7 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
         ★
       </span>
     ));
-  };
+  }, []);
 
   return (
     <div>
@@ -56,7 +63,7 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
       </div>
 
       {/* Featured Testimonial */}
-      {testimonials.find(t => t.featured) && (
+      {featuredTestimonial && (
         <div
           style={{
             marginBottom: '48px',
@@ -82,10 +89,10 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
             }}
           ></div>
 
-          {testimonials.find(t => t.featured) && (
+          {featuredTestimonial && (
             <div style={{ position: 'relative', zIndex: 1 }}>
               <div style={{ display: 'flex', gap: '4px', marginBottom: '20px' }}>
-                {renderStars((testimonials.find(t => t.featured) as Testimonial).rating)}
+                {renderStars(featuredTestimonial.rating)}
               </div>
 
               <p
@@ -98,14 +105,14 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
                   fontStyle: 'italic',
                 }}
               >
-                "{(testimonials.find(t => t.featured) as Testimonial).text}"
+                "{featuredTestimonial.text}"
               </p>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                {(testimonials.find(t => t.featured) as Testimonial).image && (
+                {featuredTestimonial.image && (
                   <img
-                    src={(testimonials.find(t => t.featured) as Testimonial).image || ''}
-                    alt={(testimonials.find(t => t.featured) as Testimonial).name}
+                    src={featuredTestimonial.image}
+                    alt={featuredTestimonial.name}
                     style={{
                       width: '56px',
                       height: '56px',
@@ -117,12 +124,12 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
                 )}
                 <div>
                   <p style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                    {(testimonials.find(t => t.featured) as Testimonial).name}
+                    {featuredTestimonial.name}
                   </p>
                   <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text2)' }}>
-                    {(testimonials.find(t => t.featured) as Testimonial).role} at{' '}
+                    {featuredTestimonial.role} at{' '}
                     <span style={{ fontWeight: 600, color: 'var(--accent)' }}>
-                      {(testimonials.find(t => t.featured) as Testimonial).company}
+                      {featuredTestimonial.company}
                     </span>
                   </p>
                 </div>
@@ -140,8 +147,7 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
           gap: '24px',
         }}
       >
-        {testimonials
-          .filter(t => !t.featured)
+        {nonFeaturedTestimonials
           .map((testimonial) => (
             <div
               key={testimonial.id}
@@ -243,7 +249,7 @@ export default function TestimonialShowcase({ testimonials, title = 'Client Test
               marginBottom: '8px',
             }}
           >
-            {(testimonials.reduce((sum, t) => sum + t.rating, 0) / testimonials.length).toFixed(1)}
+            {averageRating.toFixed(1)}
           </p>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text2)' }}>
             Average Rating
