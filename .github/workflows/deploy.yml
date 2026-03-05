@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
 
 permissions:
   contents: read
@@ -25,11 +26,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'  # Updated to Node 20
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # Use npm ci for cleaner installs
 
       - name: Build Astro project
         run: npm run build
