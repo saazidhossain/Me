@@ -22,3 +22,9 @@ Thumbs.db
 
 # Logs
 npm-debug.log*
+
+# Legacy root-level files (keep in src/ structure instead)
+/*.astro
+/*.tsx
+/*.html
+/*.css
