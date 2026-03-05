@@ -643,6 +643,13 @@ ol {
     box-shadow var(--transition-base), background var(--transition-base);
   position: relative;
   overflow: hidden;
+  /* Performance optimization */
+  will-change: transform, box-shadow;
+  /* Better rendering */
+  contain: layout style paint;
+  /* Smooth edges on scaled elements */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card::before {
@@ -658,16 +665,23 @@ ol {
   transition: opacity var(--transition-base);
   pointer-events: none;
   border-radius: inherit;
+  /* Prevent rendering issues */
+  will-change: opacity;
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.005);
   border-color: var(--border2);
   box-shadow: var(--shadow-card);
 }
 
 .card:hover::before {
   opacity: 1;
+}
+
+.card:active {
+  transform: translateY(-1px) scale(1.002);
+  transition-duration: 100ms;
 }
 
 /* --- Button Components --- */
@@ -827,10 +841,25 @@ ol {
   resize: none;
   appearance: none;
   -webkit-appearance: none;
+  /* Improve text rendering in forms */
+  text-rendering: optimizeLegibility;
+  /* Prevent iOS zoom on focus */
+  font-size: max(16px, var(--text-sm));
+  /* Better touch targets */
+  min-height: 44px;
+  touch-action: manipulation;
+  /* Smooth interactions */
+  will-change: border-color, box-shadow;
 }
 
 .form-control::placeholder {
   color: var(--muted);
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.form-control:focus::placeholder {
+  opacity: 0.5;
 }
 
 .form-control:focus {
@@ -842,6 +871,7 @@ ol {
 
 .form-control:hover:not(:focus) {
   border-color: var(--border2);
+  background: var(--surface);
 }
 
 .form-control.error {
@@ -974,11 +1004,16 @@ textarea.form-control {
 
 .hero-section {
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
   display: flex;
   align-items: center;
   padding: clamp(80px, 12vw, 140px) clamp(20px, 5vw, 80px);
   position: relative;
   overflow: hidden;
+  /* Performance optimization */
+  contain: layout style;
+  /* Smooth rendering */
+  will-change: opacity;
 }
 
 .hero-glow {
@@ -986,6 +1021,10 @@ textarea.form-control {
   border-radius: 50%;
   pointer-events: none;
   filter: blur(80px);
+  /* Performance optimization */
+  will-change: opacity, transform;
+  /* Better rendering */
+  contain: strict;
 }
 
 .hero-glow-1 {
@@ -1028,17 +1067,34 @@ textarea.form-control {
   font-family: var(--font-mono);
   color: var(--muted2);
   animation: fadeInDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+  /* Smooth interactions */
+  transition: all var(--transition-base);
+  /* Better rendering */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.hero-badge:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.1);
 }
 
 .hero-title {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: var(--font-weight-extrabold);
   font-size: var(--text-hero);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--tracking-tighter);
   margin-bottom: var(--space-6);
   color: var(--text);
   animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+  /* Advanced typography */
+  text-wrap: balance;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  /* Smooth rendering */
+  will-change: transform, opacity;
 }
 
 .hero-typewriter {
@@ -1047,15 +1103,21 @@ textarea.form-control {
   align-items: center;
   margin-bottom: var(--space-8);
   animation: fadeIn 600ms ease 400ms both;
+  /* Better text rendering */
+  text-rendering: optimizeLegibility;
 }
 
 .hero-description {
   font-size: var(--text-lg);
   color: var(--text2);
   max-width: 580px;
-  line-height: 1.8;
+  line-height: var(--line-height-loose);
   margin-bottom: var(--space-12);
   animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+  /* Advanced typography */
+  text-wrap: pretty;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 .hero-cta {
