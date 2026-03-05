@@ -93,6 +93,29 @@
   --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-base: 250ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Advanced Typography Settings --- */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Optimal line heights for different text sizes */
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+  --line-height-loose: 2;
+
+  /* Letter spacing refinements */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
 }
 
 [data-theme="light"] {
@@ -136,18 +159,39 @@ html {
   scroll-behavior: smooth;
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+  /* Enable smooth scrolling with momentum on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent 100vh issues on mobile by using dynamic viewport units */
+  height: 100%;
 }
 
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
   color: var(--text);
   background-color: var(--bg);
+
+  /* Advanced font rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  font-variant-ligatures: common-ligatures;
+
+  /* Improve text readability */
+  text-wrap: pretty;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphenate-limit-chars: 6 3 2;
+
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
   overflow-x: hidden;
+
+  /* Performance optimizations */
+  contain: layout style;
 }
 
 /* Remove default transitions from body on theme change */
@@ -157,19 +201,70 @@ body.no-transition * {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
   color: var(--text);
+  /* Prevent orphaned words in headings */
+  text-wrap: balance;
+  /* Improve rendering for large text */
+  text-rendering: optimizeLegibility;
+  /* Better kerning and ligatures for display fonts */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1;
+  /* Optical sizing for variable fonts */
+  font-optical-sizing: auto;
+  /* Smooth letter transitions */
+  letter-spacing: var(--tracking-tight);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--tracking-tighter);
+  font-weight: var(--font-weight-extrabold);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  line-height: var(--line-height-snug);
+  font-weight: var(--font-weight-semibold);
+}
+
+h4 {
+  font-size: var(--text-xl);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-semibold);
+}
+
+h5, h6 {
+  font-size: var(--text-lg);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-medium);
 }
 
 p {
   color: var(--text2);
-  line-height: 1.7;
+  line-height: var(--line-height-relaxed);
+  /* Prevent orphaned words */
+  text-wrap: pretty;
+  /* Improve hyphenation */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  /* Better spacing between paragraphs */
+  margin-bottom: 1em;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Long-form content optimization */
+article p,
+.prose p {
+  max-width: 65ch;
+  line-height: var(--line-height-loose);
 }
 
 a:focus-visible,
@@ -178,9 +273,37 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
+  /* Ensure focus indicator is visible */
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--accent);
+  /* Smooth transition for focus state */
+  transition: outline var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Focus-within for parent containers */
+*:has(:focus-visible) {
+  /* Parent containers can react to focused children */
+  --focus-within: 1;
+}
+
+/* Enhanced link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+  /* Smooth transitions */
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+  /* Improve tap target size on mobile */
+  touch-action: manipulation;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+a:active {
+  opacity: 0.7;
 }
 
 img,
@@ -555,9 +678,9 @@ ol {
   padding: 12px 28px;
   border-radius: var(--radius-lg);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   font-size: var(--text-sm);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking-wide);
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -565,6 +688,17 @@ ol {
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  /* Improve tap targets */
+  min-height: 44px;
+  touch-action: manipulation;
+  /* Better button text rendering */
+  text-rendering: optimizeLegibility;
+  /* Performance optimization */
+  will-change: transform, box-shadow;
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn::after {
@@ -573,16 +707,23 @@ ol {
   inset: 0;
   background: rgba(255, 255, 255, 0);
   transition: background var(--transition-fast);
+  pointer-events: none;
 }
 
 .btn:hover::after {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.btn:active {
+  transform: scale(0.98);
+}
+
 .btn-primary {
   background: var(--accent);
   color: #030310;
   box-shadow: 0 2px 12px rgba(var(--accent-rgb), 0.25);
+  /* Performance hint for animations */
+  will-change: transform, box-shadow;
 }
 
 .btn-primary:hover {
@@ -591,7 +732,7 @@ ol {
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
   box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.25);
 }
 
@@ -1224,5 +1365,190 @@ textarea.form-control {
   .card {
     border: 1px solid #ccc;
     box-shadow: none;
+  }
+}
+
+/* =============================================================================
+   17. ADVANCED PERFORMANCE OPTIMIZATIONS
+   ============================================================================= */
+
+/* GPU acceleration for animated elements */
+.card,
+.btn,
+.hero-section,
+.reveal {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Optimize rendering for fixed position elements */
+.nav-fixed,
+#scrollBar,
+#cursor,
+#cursorRing {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Containment for better layout performance */
+.card,
+.project-card,
+section {
+  contain: layout style;
+}
+
+/* Optimize images for better loading */
+img,
+picture,
+video {
+  /* Prevent layout shift */
+  aspect-ratio: attr(width) / attr(height);
+  /* Better image rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+img[loading="lazy"] {
+  /* Ensure lazy loading works smoothly */
+  content-visibility: auto;
+}
+
+/* =============================================================================
+   18. ENHANCED MOBILE OPTIMIZATIONS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Improve tap targets on mobile */
+  a,
+  button,
+  .btn,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Optimize font sizes for mobile readability */
+  body {
+    font-size: clamp(1rem, 4vw, 1.125rem);
+  }
+
+  /* Prevent text from being too small */
+  p,
+  li,
+  td,
+  th {
+    font-size: max(1rem, 16px);
+  }
+
+  /* Better spacing on mobile */
+  .section-padding {
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  /* Optimize animations for mobile */
+  .reveal {
+    animation-duration: 400ms !important;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* =============================================================================
+   19. ENHANCED ACCESSIBILITY IMPROVEMENTS
+   ============================================================================= */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: rgba(255, 255, 255, 0.3);
+    --border2: rgba(255, 255, 255, 0.5);
+  }
+
+  [data-theme="light"] {
+    --border: rgba(0, 0, 0, 0.3);
+    --border2: rgba(0, 0, 0, 0.5);
+  }
+
+  .btn,
+  .card,
+  input,
+  textarea,
+  select {
+    border-width: 2px;
+  }
+}
+
+/* Focus-visible improvements for keyboard navigation */
+:focus-visible {
+  /* Ensure outline is always visible */
+  outline-color: var(--accent) !important;
+  outline-width: 3px !important;
+  outline-style: solid !important;
+  outline-offset: 2px;
+}
+
+/* Skip links for screen readers */
+.skip-to-content:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Better selection colors */
+::selection {
+  background: rgba(var(--accent-rgb), 0.3);
+  color: var(--text);
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: rgba(var(--accent-rgb), 0.3);
+  color: var(--text);
+  text-shadow: none;
+}
+
+/* =============================================================================
+   20. PROGRESSIVE ENHANCEMENT
+   ============================================================================= */
+
+/* Enhance experience when CSS Grid is supported */
+@supports (display: grid) {
+  .grid-auto,
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    display: grid;
+  }
+}
+
+/* Enhance when backdrop-filter is supported */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .nav-fixed.scrolled {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+
+/* Enhance when text-wrap is supported */
+@supports (text-wrap: balance) {
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+}
+
+/* Enhance when container queries are supported */
+@supports (container-type: inline-size) {
+  .card {
+    container-type: inline-size;
   }
 }

@@ -43,8 +43,22 @@ const {
     rel="stylesheet"
   />
 
+  <!-- DNS prefetch for common external resources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+  <!-- Preload critical fonts for immediate rendering -->
+  <link
+    rel="preload"
+    href="https://fonts.gstatic.com/s/plusjakartasans/v8/LDIoaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_d0c8fmWU.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+
   <!-- Theme color for mobile browsers -->
-  <meta name="theme-color" content="#030310" />
+  <meta name="theme-color" content="#030310" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
   <meta name="color-scheme" content="dark light" />
 
   <!-- Canonical -->
@@ -221,6 +235,26 @@ const {
       document.documentElement.setAttribute('data-theme', saved);
     })();
 
+    // ─── Smooth scroll polyfill and enhancements ─────────────────────────────
+    (function() {
+      // Check if browser supports smooth scrolling
+      if (!('scrollBehavior' in document.documentElement.style)) {
+        // Simple polyfill for browsers that don't support smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+              const target = document.querySelector(href);
+              if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }
+          });
+        });
+      }
+    })();
+
     // ─── Custom cursor (desktop only) ────────────────────────────────────────
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const cursor = document.getElementById('cursor');
@@ -262,11 +296,18 @@ const {
     // ─── Scroll progress bar ─────────────────────────────────────────────────
     const scrollBar = document.getElementById('scrollBar');
     if (scrollBar) {
+      let ticking = false;
       window.addEventListener('scroll', () => {
-        const scrollable = document.body.scrollHeight - window.innerHeight;
-        const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-        scrollBar.style.width = pct + '%';
-        scrollBar.setAttribute('aria-valuenow', String(Math.round(pct)));
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const scrollable = document.body.scrollHeight - window.innerHeight;
+            const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+            scrollBar.style.width = pct + '%';
+            scrollBar.setAttribute('aria-valuenow', String(Math.round(pct)));
+            ticking = false;
+          });
+          ticking = true;
+        }
       }, { passive: true });
     }
 
@@ -286,6 +327,31 @@ const {
       );
       reveals.forEach((el) => revealObs.observe(el));
     }
+
+    // ─── Prevent layout shift from scrollbar ─────────────────────────────────
+    (function() {
+      // Calculate scrollbar width and set as CSS variable
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--scrollbar-width', scrollbarWidth + 'px');
+    })();
+
+    // ─── Improve touch experience on mobile ──────────────────────────────────
+    (function() {
+      // Add passive event listeners for better scroll performance
+      let supportsPassive = false;
+      try {
+        const opts = Object.defineProperty({}, 'passive', {
+          get() { supportsPassive = true; }
+        });
+        window.addEventListener('testPassive', null as any, opts);
+        window.removeEventListener('testPassive', null as any, opts);
+      } catch (e) {}
+
+      // Enable faster tap responses on mobile
+      if ('ontouchstart' in window) {
+        document.body.style.touchAction = 'manipulation';
+      }
+    })();
   </script>
 
   <style>
