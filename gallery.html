@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Gallery • SAZID HOSSAIN — Visual Work</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Visual gallery of design work, branding, UI/UX projects, and creative assets by Sazid Hossain."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--font-display:'Space Grotesk',sans-serif;--font-body:'Manrope',sans-serif;--font-serif:'Fraunces',serif;--font-mono:'JetBrains Mono',monospace;--bg:#05050e;--bg2:#08080f;--surface:#0c0c18;--surface2:#10101e;--border:rgba(255,255,255,0.065);--border2:rgba(255,255,255,0.12);--accent:#a8ff78;--accent2:#78ffd6;--accent3:#ff78a8;--accent-dim:rgba(168,255,120,0.1);--accent-glow:rgba(168,255,120,0.22);--text:#eeeef5;--text2:#c4c4d4;--muted:#5c5c72;--muted2:#8888a0;--nav-bg:rgba(5,5,14,0.9);--font-bn:'Noto Serif Bengali',serif;--ease:cubic-bezier(0.16,1,0.3,1);--tt:background 0.4s,color 0.4s,border-color 0.4s}
+    [data-theme="light"]{--bg:#f6f6f0;--bg2:#efefea;--surface:#ffffff;--surface2:#f0f0ea;--border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);--accent:#3a8a00;--accent2:#00705e;--accent3:#c0003a;--accent-dim:rgba(58,138,0,0.08);--accent-glow:rgba(58,138,0,0.2);--text:#0a0a14;--text2:#2a2a3a;--muted:#8888a0;--muted2:#606070;--nav-bg:rgba(246,246,240,0.92)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;cursor:none;transition:var(--tt)}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9990}
+    body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(168,255,120,0.013) 1px,transparent 1px),linear-gradient(90deg,rgba(168,255,120,0.013) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0}
+    [data-theme="light"] body::after{background-image:linear-gradient(rgba(58,138,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(58,138,0,0.025) 1px,transparent 1px)}
+    #cursor{position:fixed;width:9px;height:9px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.15s;mix-blend-mode:exclusion}
+    #cursorRing{position:fixed;width:32px;height:32px;border:1px solid rgba(168,255,120,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:transform 0.3s}
+    [data-theme="light"] #cursor{mix-blend-mode:normal}
+    #scrollBar{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:9997;width:0%;box-shadow:0 0 10px var(--accent);transition:width 0.08s linear}
+    @keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 12px var(--accent)}50%{opacity:0.5;box-shadow:0 0 4px var(--accent)}}
+    @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    nav{position:fixed;top:0;left:0;right:0;z-index:900;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid var(--border);background:var(--nav-bg);backdrop-filter:blur(28px);transition:var(--tt),box-shadow 0.3s}
+    nav.scrolled{box-shadow:0 4px 40px rgba(0,0,0,0.35)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:dotPulse 2.5s infinite;flex-shrink:0}
+    .nav-brand{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:0.2em;color:var(--text)}
+    .nav-links{display:flex;gap:6px;list-style:none;align-items:center}
+    .nav-links a{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);text-decoration:none;padding:6px 10px;border-radius:6px;transition:all 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--accent-dim)}
+    .nav-cta{font-family:var(--font-display)!important;font-weight:700!important;background:var(--accent)!important;color:#05050e!important;padding:7px 18px!important;border-radius:6px!important;transition:all 0.2s!important}
+    .nav-cta:hover{transform:translateY(-1px)!important;box-shadow:0 6px 20px var(--accent-glow)!important}
+    .nav-controls{display:flex;align-items:center;gap:8px}
+    .ctrl-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--muted2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+    .ctrl-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .lang-toggle{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:0.1em;padding:0 12px;width:auto}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.3s,opacity 0.3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-nav{position:fixed;top:62px;left:0;right:0;bottom:0;background:var(--bg);z-index:850;display:flex;flex-direction:column;padding:40px 32px;gap:8px;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);overflow-y:auto}
+    .mobile-nav.open{transform:translateX(0)}
+    .mobile-nav a{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-0.01em;color:var(--text);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+    .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent)}
+    .mobile-nav .mob-cta{color:#05050e!important;background:var(--accent);border:none;border-radius:10px;padding:16px 24px!important;margin-top:16px;text-align:center;border-bottom:none!important}
+    .page{position:relative;z-index:1;padding-top:62px}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity 0.75s var(--ease),transform 0.75s var(--ease)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    [data-lang="bn"] .bn{display:inline}[data-lang="bn"] .en{display:none}
+    [data-lang="en"] .en{display:inline}[data-lang="en"] .bn{display:none}
+    .label{display:inline-flex;align-items:center;gap:10px;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent)}
+    .label::before{content:'';width:22px;height:1px;background:var(--accent)}
+
+    /* HERO */
+    .gallery-hero{padding:90px 80px 70px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .gallery-hero::before{content:'';position:absolute;top:-150px;right:-80px;width:600px;height:600px;background:radial-gradient(circle,rgba(168,255,120,0.06) 0%,transparent 65%);pointer-events:none}
+    [data-theme="light"] .gallery-hero::before{background:radial-gradient(circle,rgba(58,138,0,0.04) 0%,transparent 65%)}
+    .hero-title{font-family:var(--font-display);font-weight:800;font-size:clamp(48px,8vw,100px);line-height:0.9;letter-spacing:-0.03em;margin:18px 0 22px;animation:slideIn 0.9s var(--ease) 0.1s both}
+    .hero-sub{font-family:var(--font-serif);font-style:italic;font-size:clamp(16px,2vw,22px);color:var(--muted2);max-width:560px;line-height:1.6;animation:slideIn 1s var(--ease) 0.25s both}
+
+    /* FILTER BAR */
+    .filter-bar{padding:28px 80px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:62px;background:var(--bg);z-index:100;backdrop-filter:blur(12px)}
+    .filter-btn{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:8px 16px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--muted2);cursor:pointer;transition:all 0.22s;font-family:var(--font-display);font-weight:600}
+    .filter-btn:hover{border-color:rgba(168,255,120,0.3);color:var(--text)}
+    .filter-btn.active{background:var(--accent-dim);border-color:rgba(168,255,120,0.4);color:var(--accent)}
+    [data-theme="light"] .filter-btn.active{background:rgba(58,138,0,0.1);border-color:rgba(58,138,0,0.4)}
+    .filter-count{font-size:9px;color:var(--muted);margin-left:auto;font-family:var(--font-mono)}
+
+    /* MASONRY GRID */
+    .gallery-grid{padding:48px 80px;columns:3 280px;gap:20px}
+    .gallery-item{break-inside:avoid;margin-bottom:20px;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:transform 0.35s var(--ease),box-shadow 0.35s var(--ease),border-color 0.2s;position:relative}
+    .gallery-item:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 0 1px rgba(168,255,120,0.15);border-color:rgba(168,255,120,0.25)}
+    [data-theme="light"] .gallery-item:hover{box-shadow:0 20px 60px rgba(0,0,0,0.12);border-color:rgba(58,138,0,0.25)}
+    .gallery-item.hidden{display:none}
+    .g-visual{width:100%;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .g-visual.tall{aspect-ratio:3/4}
+    .g-visual.wide{aspect-ratio:16/9}
+    .g-visual.square{aspect-ratio:1}
+    .g-emoji{font-size:clamp(40px,6vw,72px);animation:float 6s ease-in-out infinite}
+    .g-glow{position:absolute;inset:0;opacity:0;transition:opacity 0.4s;pointer-events:none}
+    .gallery-item:hover .g-glow{opacity:1}
+    .g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,14,0.85) 0%,transparent 50%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+    .gallery-item:hover .g-overlay{opacity:1}
+    [data-theme="light"] .g-overlay{background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%)}
+    .g-info{padding:16px 18px 18px}
+    .g-cat{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-family:var(--font-display)}
+    .g-title{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px}
+    .g-year{font-size:9px;color:var(--muted);font-family:var(--font-mono)}
+    .g-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+    .g-tag{font-size:8px;letter-spacing:0.1em;padding:3px 8px;border-radius:100px;border:1px solid var(--border2);color:var(--muted2);background:transparent}
+    .g-link{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#05050e;display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none;opacity:0;transition:opacity 0.3s,transform 0.3s;transform:scale(0.8)}
+    .gallery-item:hover .g-link{opacity:1;transform:scale(1)}
+
+    /* LIGHTBOX */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9500;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px)}
+    .lightbox.open{display:flex}
+    .lb-content{background:var(--surface);border:1px solid var(--border2);border-radius:20px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;animation:slideIn 0.4s var(--ease)}
+    .lb-visual{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden;border-radius:20px 20px 0 0}
+    .lb-emoji{font-size:80px}
+    .lb-body{padding:28px 32px 32px}
+    .lb-cat{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+    .lb-title{font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:-0.02em;margin-bottom:8px}
+    .lb-sub{font-family:var(--font-serif);font-style:italic;font-size:15px;color:var(--muted2);margin-bottom:16px}
+    .lb-desc{font-size:13px;color:var(--text2);line-height:1.9;margin-bottom:20px}
+    .lb-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+    .lb-tag{font-size:9px;letter-spacing:0.12em;padding:5px 12px;border-radius:100px;border:1px solid var(--border2);color:var(--muted2)}
+    .lb-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .lb-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.5);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:1}
+    .lb-close:hover{background:var(--accent);color:#05050e;border-color:var(--accent)}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#05050e;font-family:var(--font-display);font-weight:700;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 24px;border-radius:8px;text-decoration:none;transition:all 0.25s;border:none;cursor:pointer}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--accent-glow)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);color:var(--muted2);font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:12px 24px;border-radius:8px;text-decoration:none;transition:all 0.25s;background:transparent}
+    .btn-ghost:hover{border-color:rgba(168,255,120,0.4);color:var(--text);transform:translateY(-2px)}
+
+    /* STATS */
+    .stats-bar{display:flex;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .stat-item{flex:1;padding:28px 32px;border-right:1px solid var(--border);text-align:center}
+    .stat-item:last-child{border-right:none}
+    .stat-n{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4vw,44px);color:var(--accent);line-height:1}
+    .stat-l{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted2);margin-top:8px}
+
+    /* CTA */
+    .gallery-cta{padding:80px;text-align:center;border-top:1px solid var(--border)}
+    .gallery-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(168,255,120,0.04),transparent);pointer-events:none}
+    .cta-title{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,4.5vw,56px);letter-spacing:-0.03em;margin:14px 0 10px}
+    .cta-sub{font-family:var(--font-serif);font-style:italic;font-size:18px;color:var(--muted2);margin-bottom:32px}
+    .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:24px 48px;position:relative;z-index:1;transition:var(--tt)}
+    .footer-copy{font-size:10px;color:var(--muted);letter-spacing:0.1em}
+    .footer-links{display:flex;gap:20px;justify-content:center}
+    .footer-links a{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted2);text-decoration:none;transition:color 0.2s}
+    .footer-links a:hover{color:var(--accent)}
+    .footer-status{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);justify-content:flex-end}
+    .s-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dotPulse 2.5s infinite}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav{padding:0 20px}.nav-links{display:none}.hamburger{display:flex}
+      .gallery-hero{padding:80px 24px 60px}
+      .filter-bar{padding:20px 24px}
+      .gallery-grid{padding:32px 24px;columns:2 200px}
+      .stats-bar{flex-wrap:wrap}.stat-item{flex:1 1 calc(50% - 1px)}
+      .gallery-cta{padding:60px 24px}
+      footer{grid-template-columns:1fr;gap:12px;padding:20px 24px;text-align:center}
+      .footer-links,.footer-status{justify-content:center}
+    }
+    @media(max-width:480px){.gallery-grid{columns:1}}
+  </style>
+</head>
+<body>
+  <div id="scrollBar"></div>
+  <canvas id="starfield" style="position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.55"></canvas>
+  <div id="cursor"></div>
+  <div id="cursorRing"></div>
+
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo"><div class="nav-dot"></div><span class="nav-brand">SAZID.SYS</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html"><span class="en">Home</span><span class="bn">হোম</span></a></li>
+      <li><a href="about.html"><span class="en">About</span><span class="bn">পরিচয়</span></a></li>
+      <li><a href="services.html"><span class="en">Services</span><span class="bn">সেবা</span></a></li>
+      <li><a href="portfolio.html"><span class="en">Work</span><span class="bn">কাজ</span></a></li>
+      <li><a href="gallery.html" class="active"><span class="en">Gallery</span><span class="bn">গ্যালারি</span></a></li>
+      <li><a href="blog.html"><span class="en">Blog</span><span class="bn">ব্লগ</span></a></li>
+      <li><a href="resume.html"><span class="en">Resume</span><span class="bn">রেজুমে</span></a></li>
+      <li><a href="contact.html" class="nav-cta"><span class="en">Hire Me</span><span class="bn">যোগাযোগ</span></a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="ctrl-btn lang-toggle" id="langBtn" onclick="toggleLang()">বাং</button>
+      <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobileNav()"><span class="en">Home</span><span class="bn" style="font-family:var(--font-bn)">হোম</span></a>
+    <a href="about.html" onclick="closeMobileNav()"><span class="en">About</span><span class="bn" style="font-family:var(--font-bn)">পরিচয়</span></a>
+    <a href="services.html" onclick="closeMobileNav()"><span class="en">Services</span><span class="bn" style="font-family:var(--font-bn)">সেবা</span></a>
+    <a href="portfolio.html" onclick="closeMobileNav()"><span class="en">Work</span><span class="bn" style="font-family:var(--font-bn)">কাজ</span></a>
+    <a href="gallery.html" class="active" onclick="closeMobileNav()"><span class="en">Gallery</span><span class="bn" style="font-family:var(--font-bn)">গ্যালারি</span></a>
+    <a href="blog.html" onclick="closeMobileNav()"><span class="en">Blog</span><span class="bn" style="font-family:var(--font-bn)">ব্লগ</span></a>
+    <a href="resume.html" onclick="closeMobileNav()"><span class="en">Resume</span><span class="bn" style="font-family:var(--font-bn)">রেজুমে</span></a>
+    <a href="contact.html" class="mob-cta" onclick="closeMobileNav()"><span class="en">Hire Me</span><span class="bn" style="font-family:var(--font-bn)">যোগাযোগ</span></a>
+  </div>
+
+  <div class="page">
+
+    <!-- HERO -->
+    <section class="gallery-hero">
+      <div class="label reveal"><span class="en">Visual Work</span><span class="bn" style="font-family:var(--font-bn)">ভিজ্যুয়াল কাজ</span></div>
+      <h1 class="hero-title reveal">
+        <span class="en">Gallery</span>
+        <span class="bn" style="font-family:var(--font-bn)">গ্যালারি</span>
+      </h1>
+      <p class="hero-sub reveal">
+        <span class="en">Visual artifacts from branding, UI design, AI systems, and creative exploration — every pixel with purpose.</span>
+        <span class="bn" style="font-family:var(--font-bn)">ব্র্যান্ডিং, ইউআই ডিজাইন, এআই সিস্টেম এবং সৃজনশীল অন্বেষণ থেকে ভিজ্যুয়াল আর্টিফ্যাক্ট।</span>
+      </p>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar reveal">
+      <div class="stat-item">
+        <div class="stat-n" id="totalCount">15</div>
+        <div class="stat-l"><span class="en">Total Works</span><span class="bn" style="font-family:var(--font-bn)">মোট কাজ</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">5</div>
+        <div class="stat-l"><span class="en">Categories</span><span class="bn" style="font-family:var(--font-bn)">বিভাগ</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">3</div>
+        <div class="stat-l"><span class="en">Years Active</span><span class="bn" style="font-family:var(--font-bn)">সক্রিয় বছর</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n">40+</div>
+        <div class="stat-l"><span class="en">Projects</span><span class="bn" style="font-family:var(--font-bn)">প্রজেক্ট</span></div>
+      </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all" onclick="filterGallery('all', this)"><span class="en">All</span><span class="bn" style="font-family:var(--font-bn)">সব</span></button>
+      <button class="filter-btn" data-filter="branding" onclick="filterGallery('branding', this)"><span class="en">Branding</span><span class="bn" style="font-family:var(--font-bn)">ব্র্যান্ডিং</span></button>
+      <button class="filter-btn" data-filter="ui" onclick="filterGallery('ui', this)"><span class="en">UI/UX</span><span class="bn" style="font-family:var(--font-bn)">ইউআই/ইউএক্স</span></button>
+      <button class="filter-btn" data-filter="ai" onclick="filterGallery('ai', this)"><span class="en">AI Systems</span><span class="bn" style="font-family:var(--font-bn)">এআই সিস্টেম</span></button>
+      <button class="filter-btn" data-filter="visual" onclick="filterGallery('visual', this)"><span class="en">Visual</span><span class="bn" style="font-family:var(--font-bn)">ভিজ্যুয়াল</span></button>
+      <button class="filter-btn" data-filter="web" onclick="filterGallery('web', this)"><span class="en">Web</span><span class="bn" style="font-family:var(--font-bn)">ওয়েব</span></button>
+      <span class="filter-count" id="filterCount"><span class="en">15 items</span><span class="bn" style="font-family:var(--font-bn)">১৫টি আইটেম</span></span>
+    </div>
+
+    <!-- GRID -->
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Health Care BD -->
+      <div class="gallery-item reveal" data-category="ui web" data-id="0">
+        <div class="g-visual" style="background:linear-gradient(135deg,#0a0a1a 0%,#0d1a0d 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(168,255,120,0.15),transparent 65%)"></div>
+          <span class="g-emoji">🏥</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Health Care BD</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Digital Health Infrastructure</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/gallery/245020121/Health-Care-Bd-Digital-Health-Infrastructure" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Healthcare · UI/UX</span><span class="bn" style="font-family:var(--font-bn)">স্বাস্থ্যসেবা · ইউআই</span></div>
+          <div class="g-title"><span class="en">Health Care BD</span><span class="bn" style="font-family:var(--font-bn)">হেলথ কেয়ার বিডি</span></div>
+          <div class="g-year">2025</div>
+          <div class="g-tags"><span class="g-tag">React</span><span class="g-tag">TailwindCSS</span><span class="g-tag">UI/UX</span></div>
+        </div>
+      </div>
+
+      <!-- Shikkha Somaponi -->
+      <div class="gallery-item reveal" data-category="branding web" data-id="1">
+        <div class="g-visual tall" style="background:linear-gradient(135deg,#0a0a1a 0%,#1a0a1a 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(168,120,255,0.15),transparent 65%)"></div>
+          <span class="g-emoji">🎓</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Shikkha Somaponi</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">University Event Branding</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/gallery/245017405/Shikkha-Somaponi-Utshob-45-Digital-Transformation" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Branding · Event</span><span class="bn" style="font-family:var(--font-bn)">ব্র্যান্ডিং · ইভেন্ট</span></div>
+          <div class="g-title"><span class="en">Shikkha Somaponi</span><span class="bn" style="font-family:var(--font-bn)">শিক্ষা সমাপনী উৎসব</span></div>
+          <div class="g-year">2025</div>
+          <div class="g-tags"><span class="g-tag">Branding</span><span class="g-tag">Digital Portal</span></div>
+        </div>
+      </div>
+
+      <!-- Vabuuk Portal -->
+      <div class="gallery-item reveal" data-category="ai ui" data-id="2">
+        <div class="g-visual" style="background:linear-gradient(135deg,#050510 0%,#0a0a20 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(120,200,255,0.15),transparent 65%)"></div>
+          <span class="g-emoji">🧠</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Vabuuk Portal</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Philosophy AI Engine</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/gallery/245024023/Vabuuk-Portal-High-Performance-Web-Application" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">AI Tool · Web</span><span class="bn" style="font-family:var(--font-bn)">এআই টুল · ওয়েব</span></div>
+          <div class="g-title"><span class="en">Vabuuk Portal</span><span class="bn" style="font-family:var(--font-bn)">ভাবুক পোর্টাল</span></div>
+          <div class="g-year">2025</div>
+          <div class="g-tags"><span class="g-tag">NotebookLM</span><span class="g-tag">Cyber-Noir UI</span></div>
+        </div>
+      </div>
+
+      <!-- Mr. Rezaul -->
+      <div class="gallery-item reveal" data-category="branding ui" data-id="3">
+        <div class="g-visual square" style="background:linear-gradient(135deg,#0a0505 0%,#1a1000 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(255,200,100,0.12),transparent 65%)"></div>
+          <span class="g-emoji">👤</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Mr. Rezaul</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Digital Identity</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/gallery/245022143/Mr-Rezaul-Professional-Digital-Identity-Portfolio" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Digital Identity</span><span class="bn" style="font-family:var(--font-bn)">ডিজিটাল আইডেন্টিটি</span></div>
+          <div class="g-title"><span class="en">Mr. Rezaul Portfolio</span><span class="bn" style="font-family:var(--font-bn)">মি. রেজাউল পোর্টফোলিও</span></div>
+          <div class="g-year">2025</div>
+          <div class="g-tags"><span class="g-tag">Minimal UI</span><span class="g-tag">Trust Design</span></div>
+        </div>
+      </div>
+
+      <!-- Dokan OS -->
+      <div class="gallery-item reveal" data-category="ai web" data-id="4">
+        <div class="g-visual" style="background:linear-gradient(135deg,#0a0505 0%,#1a0a05 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(255,150,80,0.12),transparent 65%)"></div>
+          <span class="g-emoji">🛍️</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Dokan OS</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Retail Automation Engine</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">AI Automation · Retail</span><span class="bn" style="font-family:var(--font-bn)">এআই অটোমেশন</span></div>
+          <div class="g-title"><span class="en">Dokan OS</span><span class="bn" style="font-family:var(--font-bn)">দোকান ওএস</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">Banglish AI</span><span class="g-tag">WhatsApp API</span></div>
+        </div>
+      </div>
+
+      <!-- VABUUK Branding -->
+      <div class="gallery-item reveal" data-category="branding visual" data-id="5">
+        <div class="g-visual tall" style="background:linear-gradient(135deg,#050510 0%,#100520 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(180,100,255,0.15),transparent 65%)"></div>
+          <span class="g-emoji">🎨</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">VABUUK Brand</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Brand Identity System</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/saazidhossain" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Branding · Visual</span><span class="bn" style="font-family:var(--font-bn)">ব্র্যান্ডিং · ভিজ্যুয়াল</span></div>
+          <div class="g-title"><span class="en">VABUUK Brand Identity</span><span class="bn" style="font-family:var(--font-bn)">ভাবুক ব্র্যান্ড আইডেন্টিটি</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">Branding</span><span class="g-tag">Typography</span><span class="g-tag">Color</span></div>
+        </div>
+      </div>
+
+      <!-- Fashion Model Agency -->
+      <div class="gallery-item reveal" data-category="web visual" data-id="6">
+        <div class="g-visual wide" style="background:linear-gradient(135deg,#050505 0%,#100a0a 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(255,100,150,0.12),transparent 65%)"></div>
+          <span class="g-emoji">👗</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Fashion Model Agency</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">WordPress Editorial</div>
+          </div>
+        </div>
+        <a href="https://www.behance.net/gallery/122449579/Fashion-Model-Agency" target="_blank" rel="noopener" class="g-link" title="View on Behance">↗</a>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">WordPress · Fashion</span><span class="bn" style="font-family:var(--font-bn)">ওয়ার্ডপ্রেস · ফ্যাশন</span></div>
+          <div class="g-title"><span class="en">Fashion Model Agency</span><span class="bn" style="font-family:var(--font-bn)">ফ্যাশন মডেল এজেন্সি</span></div>
+          <div class="g-year">2022</div>
+          <div class="g-tags"><span class="g-tag">WordPress</span><span class="g-tag">Elementor</span></div>
+        </div>
+      </div>
+
+      <!-- AI Chatbot -->
+      <div class="gallery-item reveal" data-category="ai" data-id="7">
+        <div class="g-visual" style="background:linear-gradient(135deg,#030a08 0%,#050f0a 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(100,255,180,0.12),transparent 65%)"></div>
+          <span class="g-emoji">🤖</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">AI Sales Bot</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">WhatsApp Automation</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">AI System · Automation</span><span class="bn" style="font-family:var(--font-bn)">এআই সিস্টেম</span></div>
+          <div class="g-title"><span class="en">Banglish AI Sales Bot</span><span class="bn" style="font-family:var(--font-bn)">বাংলিশ এআই সেলস বট</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">NLP</span><span class="g-tag">WhatsApp</span><span class="g-tag">Automation</span></div>
+        </div>
+      </div>
+
+      <!-- Typography Study -->
+      <div class="gallery-item reveal" data-category="visual branding" data-id="8">
+        <div class="g-visual square" style="background:linear-gradient(135deg,#080510 0%,#100520 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(168,255,120,0.1),transparent 65%)"></div>
+          <span class="g-emoji">🔤</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Typography Study</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Bilingual Type System</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Typography · Visual</span><span class="bn" style="font-family:var(--font-bn)">টাইপোগ্রাফি · ভিজ্যুয়াল</span></div>
+          <div class="g-title"><span class="en">Bilingual Type System</span><span class="bn" style="font-family:var(--font-bn)">দ্বিভাষিক টাইপ সিস্টেম</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">Bengali</span><span class="g-tag">Latin</span><span class="g-tag">Typography</span></div>
+        </div>
+      </div>
+
+      <!-- UI Kit -->
+      <div class="gallery-item reveal" data-category="ui" data-id="9">
+        <div class="g-visual wide" style="background:linear-gradient(135deg,#050a14 0%,#0a1020 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(100,180,255,0.12),transparent 65%)"></div>
+          <span class="g-emoji">🎛️</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Dark UI Kit</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Component Library</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">UI/UX · Design System</span><span class="bn" style="font-family:var(--font-bn)">ইউআই · ডিজাইন সিস্টেম</span></div>
+          <div class="g-title"><span class="en">Nexus Dark UI Kit</span><span class="bn" style="font-family:var(--font-bn)">নেক্সাস ডার্ক ইউআই কিট</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">Figma</span><span class="g-tag">Components</span></div>
+        </div>
+      </div>
+
+      <!-- Data Visualization -->
+      <div class="gallery-item reveal" data-category="ai visual" data-id="10">
+        <div class="g-visual" style="background:linear-gradient(135deg,#040810 0%,#080c18 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(168,255,120,0.12),transparent 65%)"></div>
+          <span class="g-emoji">📊</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Data Dashboard</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Analytics Interface</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">AI · Data Viz</span><span class="bn" style="font-family:var(--font-bn)">এআই · ডেটা ভিজ</span></div>
+          <div class="g-title"><span class="en">Analytics Dashboard</span><span class="bn" style="font-family:var(--font-bn)">অ্যানালিটিক্স ড্যাশবোর্ড</span></div>
+          <div class="g-year">2024</div>
+          <div class="g-tags"><span class="g-tag">Data Viz</span><span class="g-tag">React</span></div>
+        </div>
+      </div>
+
+      <!-- Logo System -->
+      <div class="gallery-item reveal" data-category="branding visual" data-id="11">
+        <div class="g-visual square" style="background:linear-gradient(135deg,#0a0505 0%,#150808 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(255,80,80,0.1),transparent 65%)"></div>
+          <span class="g-emoji">⬡</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Logo System</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Geometric Brand Marks</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Branding · Logo</span><span class="bn" style="font-family:var(--font-bn)">ব্র্যান্ডিং · লোগো</span></div>
+          <div class="g-title"><span class="en">Geometric Logo System</span><span class="bn" style="font-family:var(--font-bn)">জিওমেট্রিক লোগো সিস্টেম</span></div>
+          <div class="g-year">2023</div>
+          <div class="g-tags"><span class="g-tag">Figma</span><span class="g-tag">Vector</span></div>
+        </div>
+      </div>
+
+      <!-- Philosophy App -->
+      <div class="gallery-item reveal" data-category="ui ai" data-id="12">
+        <div class="g-visual tall" style="background:linear-gradient(135deg,#050810 0%,#0a0f1a 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(120,255,220,0.12),transparent 65%)"></div>
+          <span class="g-emoji">📖</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Philosophy App</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Reading Interface</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">UI · Mobile</span><span class="bn" style="font-family:var(--font-bn)">ইউআই · মোবাইল</span></div>
+          <div class="g-title"><span class="en">Philosophy Reader App</span><span class="bn" style="font-family:var(--font-bn)">দর্শন রিডার অ্যাপ</span></div>
+          <div class="g-year">2023</div>
+          <div class="g-tags"><span class="g-tag">Mobile UI</span><span class="g-tag">Dark Mode</span></div>
+        </div>
+      </div>
+
+      <!-- Motion Design -->
+      <div class="gallery-item reveal" data-category="visual" data-id="13">
+        <div class="g-visual wide" style="background:linear-gradient(135deg,#040408 0%,#0a0814 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(200,100,255,0.12),transparent 65%)"></div>
+          <span class="g-emoji">✨</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Motion Studies</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">CSS Animation Library</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Motion · Visual</span><span class="bn" style="font-family:var(--font-bn)">মোশন · ভিজ্যুয়াল</span></div>
+          <div class="g-title"><span class="en">Motion Design Studies</span><span class="bn" style="font-family:var(--font-bn)">মোশন ডিজাইন স্টাডি</span></div>
+          <div class="g-year">2023</div>
+          <div class="g-tags"><span class="g-tag">CSS</span><span class="g-tag">Lottie</span></div>
+        </div>
+      </div>
+
+      <!-- Color System -->
+      <div class="gallery-item reveal" data-category="branding visual" data-id="14">
+        <div class="g-visual" style="background:linear-gradient(135deg,#020508 0%,#05080f 100%)">
+          <div class="g-glow" style="background:radial-gradient(circle at center,rgba(168,255,120,0.12),transparent 65%)"></div>
+          <span class="g-emoji">🎨</span>
+          <div class="g-overlay">
+            <div style="color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px">Color Systems</div>
+            <div style="color:rgba(255,255,255,0.6);font-size:10px;margin-top:4px">Design Token Library</div>
+          </div>
+        </div>
+        <div class="g-info">
+          <div class="g-cat"><span class="en">Design System · Color</span><span class="bn" style="font-family:var(--font-bn)">ডিজাইন সিস্টেম</span></div>
+          <div class="g-title"><span class="en">Dark Color Token System</span><span class="bn" style="font-family:var(--font-bn)">ডার্ক কালার টোকেন</span></div>
+          <div class="g-year">2023</div>
+          <div class="g-tags"><span class="g-tag">CSS Vars</span><span class="g-tag">Accessibility</span></div>
+        </div>
+      </div>
+
+    </div><!-- /gallery-grid -->
+
+    <!-- CTA -->
+    <section class="gallery-cta reveal" style="position:relative">
+      <div class="label" style="justify-content:center;margin-bottom:16px"><span class="en">Work Together</span><span class="bn" style="font-family:var(--font-bn)">একসাথে কাজ করুন</span></div>
+      <h2 class="cta-title"><span class="en">Like What You See?</span><span class="bn" style="font-family:var(--font-bn)">পছন্দ হলো?</span></h2>
+      <p class="cta-sub"><span class="en">Let's create something visually remarkable together.</span><span class="bn" style="font-family:var(--font-bn)">চলুন একসাথে কিছু অসাধারণ ভিজ্যুয়াল তৈরি করি।</span></p>
+      <div class="cta-row">
+        <a href="contact.html" class="btn-primary"><span class="en">Start a Project →</span><span class="bn" style="font-family:var(--font-bn)">প্রজেক্ট শুরু করুন →</span></a>
+        <a href="portfolio.html" class="btn-ghost"><span class="en">Full Portfolio</span><span class="bn" style="font-family:var(--font-bn)">পোর্টফোলিও</span></a>
+      </div>
+    </section>
+
+  </div><!-- /page -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2026 Sazid Hossain · NEXUS v8.0</div>
+    <nav class="footer-links">
+      <a href="about.html"><span class="en">About</span><span class="bn" style="font-family:var(--font-bn)">পরিচয়</span></a>
+      <a href="portfolio.html"><span class="en">Work</span><span class="bn" style="font-family:var(--font-bn)">কাজ</span></a>
+      <a href="blog.html"><span class="en">Blog</span><span class="bn" style="font-family:var(--font-bn)">ব্লগ</span></a>
+      <a href="contact.html"><span class="en">Contact</span><span class="bn" style="font-family:var(--font-bn)">যোগাযোগ</span></a>
+    </nav>
+    <div class="footer-status"><div class="s-dot"></div><span class="en">Available for Projects</span><span class="bn" style="font-family:var(--font-bn)">প্রজেক্টের জন্য উপলব্ধ</span></div>
+  </footer>
+
+  <script>
+  function initTheme(){
+    const s=localStorage.getItem('nexus_theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
+    document.documentElement.setAttribute('data-theme',s);
+    const btn=document.getElementById('themeBtn');
+    if(btn)btn.textContent=s==='dark'?'🌙':'☀️';
+  }
+  function toggleTheme(){
+    const c=document.documentElement.getAttribute('data-theme');
+    const n=c==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('nexus_theme',n);
+    const btn=document.getElementById('themeBtn');
+    if(btn)btn.textContent=n==='dark'?'🌙':'☀️';
+  }
+  function initLang(){
+    const s=localStorage.getItem('nexus_lang')||'en';
+    document.documentElement.setAttribute('data-lang',s);
+    const btn=document.getElementById('langBtn');
+    if(btn)btn.textContent=s==='en'?'বাং':'EN';
+  }
+  function toggleLang(){
+    const c=document.documentElement.getAttribute('data-lang');
+    const n=c==='en'?'bn':'en';
+    document.documentElement.setAttribute('data-lang',n);
+    localStorage.setItem('nexus_lang',n);
+    const btn=document.getElementById('langBtn');
+    if(btn)btn.textContent=n==='en'?'বাং':'EN';
+  }
+  function toggleMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(!h||!m)return;
+    const open=h.classList.toggle('open');
+    m.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+  function closeMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(h)h.classList.remove('open');
+    if(m)m.classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  // Starfield
+  (function(){
+    const canvas=document.getElementById('starfield');
+    if(!canvas||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    const ctx=canvas.getContext('2d');
+    let w,h,stars=[];
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+    function mkStars(){stars=[];const n=Math.floor((w*h)/10000);for(let i=0;i<n;i++)stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.2+0.2,a:Math.random(),da:(Math.random()-0.5)*0.005,s:Math.random()*0.25+0.05})}
+    function draw(){ctx.clearRect(0,0,w,h);const isDark=document.documentElement.getAttribute('data-theme')!=='light';const bc=isDark?'168,255,120':'58,138,0';stars.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0.1)s.da*=-1;s.y+=s.s;if(s.y>h){s.y=0;s.x=Math.random()*w}ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(${bc},${s.a*0.6})`;ctx.fill()});requestAnimationFrame(draw)}
+    window.addEventListener('resize',()=>{resize();mkStars()},{passive:true});
+    resize();mkStars();draw();
+  })();
+
+  // Cursor
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-4.5+'px';cur.style.top=my-4.5+'px'});
+  (function a(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-16+'px';ring.style.top=ry-16+'px';requestAnimationFrame(a)})();
+  document.addEventListener('mouseover',e=>{
+    if(e.target.closest('a,button,.gallery-item')){cur.style.transform='scale(2.5)';ring.style.transform='scale(1.5)'}
+    else{cur.style.transform='scale(1)';ring.style.transform='scale(1)'}
+  });
+
+  // Scroll
+  window.addEventListener('scroll',()=>{
+    const bar=document.getElementById('scrollBar');
+    if(bar){const max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(max>0?(window.scrollY/max)*100:0)+'%'}
+    const nav=document.getElementById('mainNav');if(nav)nav.classList.toggle('scrolled',window.scrollY>20);
+  },{passive:true});
+
+  // Reveal
+  const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80)})},{threshold:0.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Gallery filter
+  function filterGallery(filter, btn){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const items=document.querySelectorAll('.gallery-item');
+    let count=0;
+    items.forEach(item=>{
+      const cats=item.dataset.category||'';
+      const match=filter==='all'||cats.includes(filter);
+      item.classList.toggle('hidden',!match);
+      if(match)count++;
+    });
+    const fc=document.getElementById('filterCount');
+    if(fc){
+      const lang=document.documentElement.getAttribute('data-lang');
+      if(lang==='bn'){
+        fc.innerHTML=`<span class="bn" style="font-family:var(--font-bn)">${count}টি আইটেম</span>`;
+      } else {
+        fc.innerHTML=`<span class="en">${count} item${count!==1?'s':''}</span>`;
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    initTheme();
+    initLang();
+    window.addEventListener('storage',e=>{
+      if(e.key==='nexus_theme')initTheme();
+      if(e.key==='nexus_lang')initLang();
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-lang="en">
 <head>
   <meta charset="UTF-8"/>
   <title>Portfolio • SAZID HOSSAIN — Creative Technologist</title>
@@ -153,7 +153,18 @@
       .module-grid{grid-template-columns:1fr}
       footer{padding:20px 24px;flex-direction:column;gap:10px;text-align:center}
     }
-  </style>
+  
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform 0.3s,opacity 0.3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-nav{position:fixed;top:62px;left:0;right:0;bottom:0;background:var(--bg);z-index:850;display:flex;flex-direction:column;padding:40px 32px;gap:8px;transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);overflow-y:auto}
+    .mobile-nav.open{transform:translateX(0)}
+    .mobile-nav a{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-0.01em;color:var(--text);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+    .mobile-nav a:hover,.mobile-nav a.active{color:var(--accent)}
+    .mobile-nav .mob-cta{color:#05050e!important;background:var(--accent);border:none;border-radius:10px;padding:16px 24px!important;margin-top:16px;text-align:center;border-bottom:none!important}
+</style>
 </head>
 <body>
   <div id="scrollBar"></div>
@@ -166,6 +177,7 @@
       <li><a href="about.html"><span class="inline-en">About</span><span class="inline-bn">পরিচয়</span></a></li>
       <li><a href="services.html"><span class="inline-en">Services</span><span class="inline-bn">সেবা</span></a></li>
       <li><a href="portfolio.html" class="active"><span class="inline-en">Work</span><span class="inline-bn">কাজ</span></a></li>
+      <li><a href="gallery.html"><span class="en">Gallery</span><span class="bn">গ্যালারি</span></a></li>
       <li><a href="philosophy.html"><span class="inline-en">Philosophy</span><span class="inline-bn">দর্শন</span></a></li>
       <li><a href="blog.html"><span class="inline-en">Blog</span><span class="inline-bn">ব্লগ</span></a></li>
       <li><a href="resume.html"><span class="inline-en">Resume</span><span class="inline-bn">রেজুমে</span></a></li>
@@ -174,8 +186,24 @@
     <div class="nav-controls">
       <button class="ctrl-btn lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
       <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html" onclick="closeMobileNav()"><span class="en">Home</span><span class="bn" style="font-family:var(--font-bn)">হোম</span></a>
+    <a href="about.html" onclick="closeMobileNav()"><span class="en">About</span><span class="bn" style="font-family:var(--font-bn)">পরিচয়</span></a>
+    <a href="services.html" onclick="closeMobileNav()"><span class="en">Services</span><span class="bn" style="font-family:var(--font-bn)">সেবা</span></a>
+    <a href="portfolio.html" class="active" onclick="closeMobileNav()"><span class="en">Work</span><span class="bn" style="font-family:var(--font-bn)">কাজ</span></a>
+    <a href="gallery.html" onclick="closeMobileNav()"><span class="en">Gallery</span><span class="bn" style="font-family:var(--font-bn)">গ্যালারি</span></a>
+    <a href="philosophy.html" onclick="closeMobileNav()"><span class="en">Philosophy</span><span class="bn" style="font-family:var(--font-bn)">দর্শন</span></a>
+    <a href="blog.html" onclick="closeMobileNav()"><span class="en">Blog</span><span class="bn" style="font-family:var(--font-bn)">ব্লগ</span></a>
+    <a href="resume.html" onclick="closeMobileNav()"><span class="en">Resume</span><span class="bn" style="font-family:var(--font-bn)">রেজুমে</span></a>
+    <a href="contact.html" class="mob-cta" onclick="closeMobileNav()"><span class="en">Hire Me</span><span class="bn" style="font-family:var(--font-bn)">যোগাযোগ</span></a>
+  </div>
+
 
   <div class="page">
     <div class="page-header">
@@ -436,6 +464,21 @@
     },{passive:true});
     initTheme();initLang();renderAll();
     window.addEventListener('storage',e=>{if(e.key==='nexus_projects')renderAll()});
+  
+  function toggleMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(!h||!m)return;
+    const open=h.classList.toggle('open');
+    m.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+  function closeMobileNav(){
+    const h=document.getElementById('hamburger'),m=document.getElementById('mobileNav');
+    if(h)h.classList.remove('open');
+    if(m)m.classList.remove('open');
+    document.body.style.overflow='';
+  }
+
   </script>
 </body>
 </html>
