@@ -1,0 +1,10 @@
+# robots.txt for Sazid Hossain Portfolio
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://saazidhossain.github.io/Me/sitemap.xml
+
+# Disallow admin or private areas (if any in future)
+# Disallow: /admin/
+# Disallow: /private/

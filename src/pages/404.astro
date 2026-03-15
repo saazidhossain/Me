@@ -1,0 +1,232 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Page Not Found • Sazid Hossain" page="/404">
+  <section
+    class="section-padding"
+    style="
+      min-height: calc(100vh - 62px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      position: relative;
+      overflow: hidden;
+    "
+  >
+    <!-- Background Glow -->
+    <div
+      style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(600px, 80vw);
+        height: min(600px, 80vw);
+        background: radial-gradient(circle, rgba(180, 255, 87, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: pulse 8s ease-in-out infinite;
+      "
+      aria-hidden="true"
+    ></div>
+
+    <div
+      style="
+        max-width: 800px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        padding: clamp(20px, 5vw, 80px);
+      "
+    >
+      <!-- 404 Number -->
+      <div
+        style="
+          font-family: var(--font-display);
+          font-weight: 800;
+          font-size: clamp(6rem, 20vw, 12rem);
+          line-height: 1;
+          background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: var(--space-8);
+          animation: fadeInUp 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        "
+      >
+        404
+      </div>
+
+      <!-- Heading -->
+      <h1
+        style="
+          font-family: var(--font-display);
+          font-weight: 700;
+          font-size: clamp(1.75rem, 5vw, 3rem);
+          color: var(--text);
+          margin-bottom: var(--space-6);
+          animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+        "
+      >
+        Page Not Found
+      </h1>
+
+      <!-- Description -->
+      <p
+        style="
+          font-size: clamp(1rem, 2.5vw, 1.25rem);
+          color: var(--text2);
+          line-height: 1.8;
+          margin-bottom: var(--space-4);
+          animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+        "
+      >
+        The page you're looking for seems to have wandered off into the digital void.
+      </p>
+
+      <p
+        style="
+          font-family: var(--font-bn);
+          font-size: var(--text-base);
+          color: var(--muted);
+          line-height: 2.0;
+          margin-bottom: var(--space-12);
+          animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+        "
+      >
+        আপনি যে পেজটি খুঁজছেন তা পাওয়া যায়নি।
+      </p>
+
+      <!-- CTA Buttons -->
+      <div
+        style="
+          display: flex;
+          gap: var(--space-4);
+          justify-content: center;
+          flex-wrap: wrap;
+          animation: fadeInUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 400ms both;
+        "
+      >
+        <a href="/" class="btn btn-primary">
+          ← Go Home
+        </a>
+        <a href="/portfolio" class="btn btn-outline">
+          View Portfolio
+        </a>
+        <a href="/contact" class="btn btn-outline">
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Helpful Links -->
+      <div
+        style="
+          margin-top: var(--space-16);
+          padding-top: var(--space-8);
+          border-top: 1px solid var(--border);
+          animation: fadeIn 600ms ease 600ms both;
+        "
+      >
+        <p
+          style="
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            margin-bottom: var(--space-4);
+          "
+        >
+          Popular Pages
+        </p>
+        <nav aria-label="Popular pages" style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+          <a
+            href="/about"
+            style="
+              font-size: var(--text-sm);
+              color: var(--muted2);
+              transition: color var(--transition-fast);
+            "
+            onmouseover="this.style.color='var(--accent)'"
+            onmouseout="this.style.color='var(--muted2)'"
+          >
+            About
+          </a>
+          <span style="color: var(--border2);" aria-hidden="true">•</span>
+          <a
+            href="/services"
+            style="
+              font-size: var(--text-sm);
+              color: var(--muted2);
+              transition: color var(--transition-fast);
+            "
+            onmouseover="this.style.color='var(--accent)'"
+            onmouseout="this.style.color='var(--muted2)'"
+          >
+            Services
+          </a>
+          <span style="color: var(--border2);" aria-hidden="true">•</span>
+          <a
+            href="/blog"
+            style="
+              font-size: var(--text-sm);
+              color: var(--muted2);
+              transition: color var(--transition-fast);
+            "
+            onmouseover="this.style.color='var(--accent)'"
+            onmouseout="this.style.color='var(--muted2)'"
+          >
+            Blog
+          </a>
+          <span style="color: var(--border2);" aria-hidden="true">•</span>
+          <a
+            href="/resume"
+            style="
+              font-size: var(--text-sm);
+              color: var(--muted2);
+              transition: color var(--transition-fast);
+            "
+            onmouseover="this.style.color='var(--accent)'"
+            onmouseout="this.style.color='var(--muted2)'"
+          >
+            Resume
+          </a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+</style>

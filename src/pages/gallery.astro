@@ -93,12 +93,9 @@ const projectData = await import('../../data/projects.json').then(m => m.default
     background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
   ">
     <div style="max-width:1200px;margin:0 auto;">
-      <ProjectShowcase 
-        client:load
+      <ProjectShowcase
+        client:visible
         projects={projectData}
-        onProjectClick={(project: any) => {
-          console.log('Project clicked:', project);
-        }}
       />
     </div>
   </section>
