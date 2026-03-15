@@ -1,9 +1,11 @@
 # Dependencies
 node_modules/
+package-lock.json
 
 # Build outputs
 dist/
 .astro/
+*.html
 
 # Environment
 .env
@@ -22,3 +24,15 @@ Thumbs.db
 
 # Logs
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary
+.tmp/
+.temp/
+tmp/
